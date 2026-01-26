@@ -1,0 +1,22 @@
+[user]
+	name = Vitor Antunes
+	email = vitor.e.antunes@cstaf.pt
+
+[alias]
+    p = pull
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    # A graph view of logs - great for visualizing branches
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+    # Unstage a file
+    unstage = reset HEAD --
+    # Show the last commit
+    last = log -1 HEAD
+
+[pull]
+	ff = only
+	
+[merge]
+	ff = false

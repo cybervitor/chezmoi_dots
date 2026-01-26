@@ -1,0 +1,26 @@
+[Default]
+
+save_dir=$HOME/Pictures/Screenshots
+
+# e.g., screenshot-2024-01-09-11-30-00.png
+save_filename_format=screenshot-%Y-%m-%d-%H-%M-%S.png
+
+show_panel=true
+
+# Initial settings for tools
+line_size=5
+text_size=20
+text_font=DroidSansMNerdFont-Regular
+
+# Behavior settings
+# "true" means Swappy closes immediately after you copy to clipboard (Ctrl+C)
+early_exit=true
+
+# "false" means shapes (circles/boxes) are outlines by default, not filled blocks
+fill_shape=false
+
+paint_mode = brush
+
+auto_save = true
+
+

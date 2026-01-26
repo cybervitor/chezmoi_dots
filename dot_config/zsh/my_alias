@@ -13,6 +13,7 @@ alias top="btop"
 
 # Quick editing
 alias edit-alias='micro $ZDOTDIR/my_alias'
+alias edit-env='micro $ZDOTDIR/.zshenv'
 alias edit-keybinds='micro $ZDOTDIR/keybinds'
 alias edit-zsh='micro $ZDOTDIR/.zshrc'
 alias hyprconf="micro $HYPRDIR/hyprland.conf"

@@ -1,0 +1,42 @@
+// -*- mode: jsonc -*-
+[
+    {
+        "output":"eDP-1",
+        "layer": "top", // Waybar at top layer
+        "position": "top", // Waybar position (top|bottom|left|right)
+        "height": 44,
+        "spacing": 0, // Gaps between modules (4px)
+        "margin-top":5,
+        "margin-bottom":-10,
+        "modules-left": ["cpu", "memory", "temperature", "battery#bat0", "battery#bat1"/*"custom/media"*/],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": [/*"cava",*/ "network", "pulseaudio", "clock", "tray", "custom/power"],
+        "include": "./modules.jsonc"
+    },
+    {
+        "output":["HP Inc. HP E27 G5 CNC43529GS","Lenovo Group Limited LEN T24i-20 VNA6C15H","Lenovo Group Limited LEN T24i-20 VNA6C0XN"],
+        "layer": "top", // Waybar at top layer
+        "position": "top", // Waybar position (top|bottom|left|right)
+        "height": 44,
+        "spacing": 0, // Gaps between modules (4px)
+        "margin-top":5,
+        "margin-bottom":-10,
+        "modules-left": ["custom/media"],
+        "modules-center": ["custom/cava-left","hyprland/workspaces","custom/cava-right"],
+        "modules-right": ["pulseaudio","clock"],
+        "include": "./modules.jsonc"
+    },
+    {
+        "output":"HP Inc. HP E27 G5 CNC4352B36",
+        "layer": "top", // Waybar at top layer
+        "position": "top", // Waybar position (top|bottom|left|right)
+        "height": 44,
+        "spacing": 0, // Gaps between modules (4px)
+        "margin-top":5,
+        "margin-bottom":-10,
+        "modules-left": ["cpu", "memory", "temperature","network"],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": ["clock", "tray", "custom/power"],
+        "include": "./modules.jsonc"
+    }
+]

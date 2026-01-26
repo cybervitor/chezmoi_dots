@@ -1,0 +1,26 @@
+[general]
+framerate = 60
+bars = 0
+
+[input]
+method = pulse
+source = auto
+
+[output]
+method = noncurses
+orientation = top
+
+[color]
+gradient = 1
+gradient_count = 6
+gradient_color_1 = '#a8c8ff'
+gradient_color_2 = '#bdc7dc'
+gradient_color_3 = '#dcbce1'
+gradient_color_4 = '#dcbce1'
+gradient_color_5 = '#bdc7dc'
+gradient_color_6 = '#a8c8ff'
+
+[smoothing]
+noise_reduction = 77
+
+[eq]
