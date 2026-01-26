@@ -1,0 +1,24 @@
+# Case insensitive completion (cd doc -> Documents)
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Allows you to select files with arrows when hitting Tab multiple times
+zstyle ':completion:*' menu select
+
+# Don't complete the current directory (it's redundant)
+zstyle ':completion:*' ignore-parents parent pwd
+
+# Sort files by name
+zstyle ':completion:*' file-sort name
+
+zstyle ':completion:*' completer _complete _ignored _approximate
+
+# Groups results into categories (e.g., 'Aliases', 'Directories', 'Commands')
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*' group-name ''

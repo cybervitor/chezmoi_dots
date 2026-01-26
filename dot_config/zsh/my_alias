@@ -1,0 +1,25 @@
+# My personal Aliases
+
+# Alter default behaviour
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ll="eza -Gloha --no-permissions --color=always --color-scale=all --color-scale-mode=gradient --hyperlink --absolute=off"
+alias cat="bat"
+alias find='fd'
+alias du="dust"
+alias free="duf"
+alias nano="micro"
+alias top="btop"
+
+# Quick editing
+alias edit-alias='micro $ZDOTDIR/my_alias'
+alias edit-keybinds='micro $ZDOTDIR/keybinds'
+alias edit-zsh='micro $ZDOTDIR/.zshrc'
+alias hyprconf="micro $HYPRDIR/hyprland.conf"
+
+# Shortcuts
+alias s="kitten ssh"
+
+alias st="cd $HOME/Projects/CSTAF/estatisticas/" 
+alias bdsta="cd $HOME/Projects/CSTAF/bdsta/"
+alias sig="cd $HOME/Projects/CSTAF/sigtaf/"

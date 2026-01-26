@@ -1,0 +1,16 @@
+sigtaf() {
+  local container_name="sigtaf-backend"
+  local project_folder="/home/$USER/CSTAF/sigtaf"
+
+  # Check if the container is running
+  if ! docker ps --filter "name=$container_name" --format "{{.Names}}" | grep -q "$container_name"; then
+    echo "Error: Docker container '$container_name' is not running."
+    return 1 # Exit with an error
+  fi
+
+  # Execute the command inside the container
+  docker exec -it "$container_name" bash -c "\"\$@\"" -- "$@"
+
+  # Fix permissions
+  sudo chown $USER $project_folder -R
+}

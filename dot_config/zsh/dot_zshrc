@@ -1,0 +1,47 @@
+# PowerLevel10k Instant Prompt
+if [[ -r "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Load ZSH Quality of Life Rules
+source $ZDOTDIR/historyconf
+
+# Load ZSH Quality of Life Rules
+source $ZDOTDIR/zstyleconf
+
+# Bootstrap ZSnap
+local znap_source="$XDG_DATA_HOME/zsh/znap/znap.zsh"
+if [[ ! -f "$znap_source" ]]; then
+	echo "Installing Znap..."
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git "$XDG_DATA_HOME/zsh/znap"
+fi
+source "$znap_source"
+
+# Load ZSnap Plugins
+znap source ohmyzsh/ohmyzsh lib/git lib/theme-and-appearance plugins/git
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+
+# Load PL10K Themes
+znap source romkatv/powerlevel10k
+
+# Load PL10K Configs
+if [[ -f "$ZDOTDIR/.p10k.zsh" ]]; then
+    source "$ZDOTDIR/.p10k.zsh"
+fi
+
+# Load Aliases
+source $ZDOTDIR/my_alias
+source $ZDOTDIR/work_alias
+
+# Load Keybinds
+source $ZDOTDIR/keybinds
+
+# Node Version Manager exports, still need to optimize this for fast load
+export NVM_DIR="/usr/share/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+
+eval $(thefuck --alias)
