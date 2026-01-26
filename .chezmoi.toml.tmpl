@@ -1,0 +1,10 @@
+{{- $is_laptop := false -}}
+{{- if eq .chezmoi.hostname "arch-vitor" -}}
+{{-   $is_laptop = true -}}
+{{- end -}}
+
+[data]
+    email = "your.email@example.com"
+    is_laptop = {{ $is_laptop }}
+    # Define your main interface for Waybar/Network tools
+    net_iface = "{{ if $is_laptop }}wlan0{{ else }}eth0{{ end }}"
