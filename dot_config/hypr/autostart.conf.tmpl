@@ -1,0 +1,14 @@
+# Autostart processes (like notifications daemons, status bars, etc.)
+
+exec-once = hyprpaper > /dev/null 2>&1 &
+exec-once = $bar > /dev/null 2>&1 &
+exec-once = xsettingsd > /dev/null 2>&1 &
+exec-once = blueman-applet > /dev/null 2>&1 &
+exec-once = nm-applet > /dev/null 2>&1 &
+exec-once = udiskie -t > /dev/null 2>&1 &
+exec-once = eww daemon > /dev/null 2>&1 &
+exec-once = systemctl --user start hyprpolkitagent
+{{- if .is_laptop }}
+exec-once = kanshi
+{{- else }}
+{{- end }}

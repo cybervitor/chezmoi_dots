@@ -1,0 +1,28 @@
+# See https://wiki.hyprland.org/Configuring/Environment-variables/
+
+# --- Graphics Drivers ---
+env = __GLX_VENDOR_LIBRARY_NAME,mesa
+{{- if .is_laptop }}
+env = LIBVA_DRIVER_NAME,iHD
+# env = NVD_BACKEND,direct
+{{- else }}
+env = LIBVA_DRIVER_NAME,radeonsi
+{{- end }}
+
+# --- Desktop Portal (D-Bus) ---
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+env = XDG_SESSION_DESKTOP,Hyprland
+
+# --- GTK Theming --- 
+env = HYPRCURSOR_THEME,Future-Cyan
+env = HYPRCURSOR_SIZE,46
+env = GTK_THEME,Tokyonight-Dark
+env = GTK_ICON_THEME,Tokyonight-Dark
+env = XCURSOR_SIZE,24
+env = XCURSOR_THEME,Future-Cyan
+
+# --- QT Theming --- 
+env = QT_QPA_PLATFORMTHEME,qt5ct #Forces Qt to use the qt5ct tool for settings
+env = QT_QPA_PLATFORM,wayland #Tells Qt apps to use Wayland
+# env = QT_STYLE_OVERRIDE,kvantum #Forces the Qt style engine to use Kvantum #Not Needed as qt5ct/qt6ct manage the look of QT for me
