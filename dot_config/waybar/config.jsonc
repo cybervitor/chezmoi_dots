@@ -38,5 +38,18 @@
         "modules-center": ["hyprland/workspaces"],
         "modules-right": ["clock", "tray", "custom/power"],
         "include": "./modules.jsonc"
+    },
+    {
+        "output":"Ancor Communications Inc VS278 F2LMQS017257",
+        "layer": "top", // Waybar at top layer
+        "position": "top", // Waybar position (top|bottom|left|right)
+        "height": 44,
+        "spacing": 0, // Gaps between modules (4px)
+        "margin-top":5,
+        "margin-bottom":-10,
+        "modules-left": ["cpu", "memory", "temperature", "custom/media"],
+        "modules-center": ["custom/cava-left","hyprland/workspaces","custom/cava-right"],
+        "modules-right": ["network", "pulseaudio", "clock", "tray", "custom/power"],
+        "include": "./modules.jsonc"
     }
 ]
