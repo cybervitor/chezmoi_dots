@@ -1,6 +1,6 @@
 # Setup base workspaces and execute apps at launch:
-{{- if .is_laptop }}
 
+{{- if .is_laptop }}
 workspace = 1, name:hello, monitor:eDP-1, default:true
 exec-once = [workspace 1 silent] kitty
 
@@ -17,10 +17,7 @@ workspace = 9, name:logs, monitor:desc:HP Inc. HP E27 G5 CNC4352B36, default:tru
 exec-once = [workspace 9 silent] kitty
 
 exec-once = [workspace special:magic silent] ferdium
-
 {{- else }}
-
 workspace = 1, name:hello, monitor:DP-1, default:true
 exec-once = [workspace 1 silent] zen-browser
-
 {{- end }}

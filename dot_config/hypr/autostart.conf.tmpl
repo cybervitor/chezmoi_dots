@@ -1,3 +1,11 @@
+# See https://wiki.hyprland.org/Configuring/Keywords/
+
+# Set programs that are used
+$terminal = kitty
+$fileManager = thunar
+$menu = killall fuzzel || fuzzel --use-bold --show-actions -R
+$bar = waybar
+
 # Autostart processes (like notifications daemons, status bars, etc.)
 
 exec-once = hyprpaper > /dev/null 2>&1 &
@@ -10,5 +18,4 @@ exec-once = eww daemon > /dev/null 2>&1 &
 exec-once = systemctl --user start hyprpolkitagent
 {{- if .is_laptop }}
 exec-once = kanshi
-{{- else }}
 {{- end }}

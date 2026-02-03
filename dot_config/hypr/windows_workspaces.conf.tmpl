@@ -1,0 +1,76 @@
+# See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+# See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
+
+windowrule {
+    # Ignore maximize requests from all apps. You'll probably like this.
+    name = suppress-maximize-events
+    match:class = .*
+
+    suppress_event = maximize
+}
+
+windowrule {
+    # Fix some dragging issues with XWayland
+    name = fix-xwayland-drags
+    match:class = ^$
+    match:title = ^$
+    match:xwayland = true
+    match:float = true
+    match:fullscreen = false
+    match:pin = false
+
+    no_focus = true
+}
+
+# Hyprland-run windowrule
+windowrule {
+    name = move-hyprland-run
+
+    match:class = hyprland-run
+
+    move = 20 monitor_h-120
+    float = yes
+}
+
+# Auto-un-float Ganttproject
+windowrule {
+    name = force-tile-ganttproject
+    match:class = ^(java-lang-Thread)$
+    match:title = ^(GanttProject)(.*)$
+    
+    float = no
+}
+
+# Float popup windows
+
+# 1. Thunar Specifics
+windowrule {
+    name = float-thunar
+    match:class = ^(Thunar)$
+    match:title = ^(File Operation Progress)|(Confirm to replace files)$
+    float = yes
+    center = yes
+}
+
+# 2. Portals
+windowrule {
+    name = float-portal-hyprland
+    match:class = ^(xdg-desktop-portal-hyprland)$
+    float = yes
+}
+
+# 3. Catch-All
+# This catches X11 apps or apps not using Portals that name their windows predictably.
+windowrule {
+    name = float-x11
+    match:title = ^(Open File)|(Select a File)|(Choose wallpaper)|(Open Folder)|(Save As)|(Library)|(File Upload)$
+    float = yes
+}
+
+# 4. Picture-in-Picture (Browsers)
+windowrule {
+    name = float-portal-hyprland
+    match:class = ^(Picture-in-Picture)$
+    float = yes
+    pin = yes
+}

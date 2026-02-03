@@ -18,6 +18,8 @@ export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 export NODE_REPL_HISTORY="$XDG_STATE_HOME"/node_repl_history
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
+export GOPATH="$XDG_DATA_HOME"/go
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
 # --- Personal Variables ---
 export HYPRDIR="$XDG_CONFIG_HOME"/hypr
