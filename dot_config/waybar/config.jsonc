@@ -28,11 +28,11 @@
         "include": "./modules.jsonc"
     },
     {
-        "output":"Ancor Communications Inc VS278 F2LMQS017257",
+        "output":["LG Electronics LG ULTRAGEAR 509NTDVM2162","Ancor Communications Inc VS278 F2LMQS017257"],
         "layer": "top",
         "position": "top",
         "modules-left": ["cpu", "memory", "temperature", "custom/media"],
-        "modules-center": ["custom/cava-left","hyprland/workspaces","custom/cava-right"],
+        "modules-center": ["hyprland/workspaces"],
         "modules-right": ["network", "pulseaudio", "clock", /*"tray",*/ "custom/power"],
         "include": "./modules.jsonc"
     }

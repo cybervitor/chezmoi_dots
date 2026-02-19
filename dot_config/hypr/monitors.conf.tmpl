@@ -32,7 +32,12 @@ monitor = desc:Lenovo Group Limited LEN T24i-20 VNA6C15H, 1920x1080@60.00Hz, 192
 monitor = desc:Lenovo Group Limited LEN T24i-20 VNA6C0XN, 1920x1080@60.00Hz, -1920x-720, 1
 {{- else }}
 # Desktop Monitor
-# monitor=,preferred,auto,1
+monitorv2 {
+  output = desc:LG Electronics LG ULTRAGEAR 509NTDVM2162
+  mode = 2560x1440@239.97Hz
+  position = 0x0
+  scale = 1
+}
 {{- end }}
 
 # Fallback for unknown monitors
