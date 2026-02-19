@@ -1,6 +1,6 @@
 sigtaf() {
   local container_name="sigtaf-backend"
-  local project_folder="/home/$USER/CSTAF/sigtaf"
+  local project_folder="/home/cybervitor/Projects/CSTAF/sigtaf"
 
   # Check if the container is running
   if ! docker ps --filter "name=$container_name" --format "{{.Names}}" | grep -q "$container_name"; then

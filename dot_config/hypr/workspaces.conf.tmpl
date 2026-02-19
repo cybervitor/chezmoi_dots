@@ -2,7 +2,7 @@
 
 {{- if .is_laptop }}
 workspace = 1, name:hello, monitor:eDP-1, default:true
-exec-once = [workspace 1 silent] kitty
+exec-once = [workspace 1 silent] /usr/bin/betterbird
 
 workspace = 2, name:browser, monitor:desc:HP Inc. HP E27 G5 CNC43529GS, default:true
 exec-once = [workspace 2 silent] zen-browser

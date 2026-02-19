@@ -17,10 +17,22 @@ alias s="kitten ssh"
 alias st="cd $HOME/Projects/CSTAF/estatisticas/" 
 alias bdsta="cd $HOME/Projects/CSTAF/bdsta/"
 alias sig="cd $HOME/Projects/CSTAF/sigtaf/"
+alias notes="micro $HOME/Documents/notes.mk"
 
 # Quick editing
 alias edit-alias='chezmoi edit $ZDOTDIR/my_alias'
+alias edit-work-alias='chezmoi edit $ZDOTDIR/work_alias'
 alias edit-zenv='chezmoi edit $ZDOTDIR/.zshenv'
 alias edit-term-keybinds='chezmoi edit $ZDOTDIR/keybinds'
 alias edit-zshrc='chezmoi edit $ZDOTDIR/.zshrc'
-alias hyprconf="chezmoi edit $HYPRDIR/hyprland.conf"
+alias edit-hyprconf-base="chezmoi edit $HYPRDIR/hyprland.conf"
+alias edit-hyprconf-monitors="chezmoi edit $HYPRDIR/monitors.conf"
+alias edit-hyprconf-autostart="chezmoi edit $HYPRDIR/autostart.conf"
+alias edit-hyprconf-workspaces="chezmoi edit $HYPRDIR/workspaces.conf"
+alias edit-hyprconf-env_vars="chezmoi edit $HYPRDIR/env_vars.conf"
+alias edit-hyprconf-permissions="chezmoi edit $HYPRDIR/permissions.conf"
+alias edit-hyprconf-look_feel="chezmoi edit $HYPRDIR/look_feel.conf"
+alias edit-hyprconf-input="chezmoi edit $HYPRDIR/input.conf"
+alias edit-hyprconf-keybinds="chezmoi edit $HYPRDIR/keybinds.conf"
+alias edit-hyprconf-windows_workspaces="chezmoi edit $HYPRDIR/windows_workspaces.conf"
+

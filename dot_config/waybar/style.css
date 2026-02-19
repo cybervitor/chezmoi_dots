@@ -1,112 +1,111 @@
 * {
-	border: none;
-	border-radius: 10px;
-	font-family: "JetbrainsMono Nerd Font" ;
-	font-size: 17px;
-	min-height: 10px;
+    font-family: "JetbrainsMono Nerd Font";
+    font-size: 17px;
+    border: none;
 }
 
+/* --- LAYOUT & POSITIONING --- */
 window#waybar {
-	background: transparent;
+    background: transparent;
 }
 
 window#waybar.hidden {
-	opacity: 0.2;
+    opacity: 0.2;
 }
 
-#window {
-	margin-top: 6px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border-radius: 10px;
-	transition: none;
-        color: transparent;
-	background: transparent;
+.modules-left, .modules-center, .modules-right {
+    min-height: 32px;
+    margin-top: 10px;
 }
+
+.modules-left {
+    margin-left: 16px; /* 16px + 4px from first module = 20px */
+}
+
+.modules-right {
+    margin-right: 20px; /* 20px + 4px from last module - 4px from left = 20px */
+}
+
+@keyframes blink {
+    to {
+        background-color: #BF616A;
+        color: #B5E8E0;
+    }
+}
+
+/* --- WORKSPACES --- */
 #workspaces {
-	margin-top: 6px;
-	margin-left: 12px;
-	font-size: 4px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	background: #161320;
-	transition: none;
+    border-radius: 10px;
+    background: #161320;
 }
 
 #workspaces button {
-	transition: none;
-	color: #B5E8E0;
-	background: transparent;
-	font-size: 16px;
-	border-radius: 2px;
+    color: #B5E8E0;
+    background: transparent;
+    border-radius: 2px;
+    border: 2px solid transparent;
 }
 
 #workspaces button.occupied {
-	transition: none;
-	color: #F28FAD;
-	background: transparent;
-	font-size: 4px;
+    color: #F28FAD;
+    background: transparent;
+    border: 2px solid transparent;
 }
 
 #workspaces button.active {
-	color: #ABE9B3;
-        border-top: 2px solid #ABE9B3;
-        border-bottom: 2px solid #ABE9B3;
-		border-left: 2px solid #ABE9B3;
-        border-right: 2px solid #ABE9B3;
+    color: #ABE9B3;
+    border-color: #ABE9B3;
 }
 
 #workspaces button:hover {
-	transition: none;
-	box-shadow: inherit;
-	text-shadow: inherit;
-	color: #FAE3B0;
-	border-color: #E8A2AF;
-	color: #E8A2AF;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    color: #FAE3B0;
+    border-color: #E8A2AF;
 }
 
 #workspaces button.active:hover {
     color: #E8A2AF;
 }
 
-#network {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 18px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #bd93f9;
+/* --- MODULES BASE STYLING --- */
+#network, #temperature, #backlight, #clock,
+#memory, #cpu, #tray, #pulseaudio, #battery,
+#custom-power, #custom-media, #custom-cava-left,
+#custom-cava-right {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    color: #161320;
 }
 
-#temperature {
-        margin-top: 6px;
-        margin-left: 8px;
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-bottom: 0px;
-        border-radius: 10px;
-        transition: none;
-        color: #161320;
-        background: #ABE9B3;
+/* --- MODULE SPECIFIC COLORS & EXCEPTIONS --- */
+#temperature  { background: #ABE9B3; }
+#network      { background: #bd93f9; }
+#backlight    { background: #F8BD96; }
+#clock        { background: #ABE9B3; }
+#memory       { background: #DDB6F2; }
+#cpu          { background: #96CDFB; }
+#battery      { background: #B5E8E0; }
+#custom-power { background: #F28FAD; }
+#pulseaudio   { background: #FAE3B0; }
+#tray         { background: #121138; }
+
+#custom-media {
+    background: #e14747;
+    min-width: 500px;
 }
 
-#battery {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #B5E8E0;
+#custom-cava-left, #custom-cava-right {
+    background: #121138;
+    color: unset; /* Ensures the visualizer colors render correctly */
 }
 
+/* --- BATTERY ANIMATIONS --- */
 #battery.charging, #battery.plugged {
-	color: #161320;
+    color: #161320;
     background-color: #B5E8E0;
 }
 
@@ -118,123 +117,4 @@ window#waybar.hidden {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-}
-
-@keyframes blink {
-    to {
-        background-color: #BF616A;
-        color: #B5E8E0;
-    }
-}
-
-#backlight {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #F8BD96;
-}
-
-#clock {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #ABE9B3;
-}
-
-#memory {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	margin-bottom: 0px;
-	padding-right: 10px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #DDB6F2;
-}
-
-#cpu {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	margin-bottom: 0px;
-	padding-right: 10px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #96CDFB;
-}
-
-#tray {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	margin-bottom: 0px;
-	padding-right: 10px;
-	border-radius: 10px;
-	transition: none;
-	background: #121138;
-	
-}
-
-#custom-power {
-	font-size: 20px;
-	margin-top: 6px;
-	margin-left: 8px;
-	margin-right: 8px;
-	padding-left: 10px;
-	padding-right: 5px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #161320;
-	background: #F28FAD;
-}
-
-#pulseaudio {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-	transition: none;
-	color: #1A1826;
-	background: #FAE3B0;
-}
-
-#custom-media {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-bottom: 0px;
-	border-radius: 10px;
-
-	min-width: 500px; 
-
-	transition: none;
-	color: #161320;
-	background: #e14747;
-}
-
-#custom-cava-left, #custom-cava-right {
-	margin-top: 6px;
-	margin-left: 8px;
-	padding-left: 10px;
-	margin-bottom: 0px;
-	padding-right: 10px;
-	border-radius: 10px;
-	transition: none;
-	background: #121138;
 }
