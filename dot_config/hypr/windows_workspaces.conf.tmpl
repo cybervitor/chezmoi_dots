@@ -5,7 +5,6 @@ windowrule {
     # Ignore maximize requests from all apps. You'll probably like this.
     name = suppress-maximize-events
     match:class = .*
-
     suppress_event = maximize
 }
 
@@ -18,16 +17,13 @@ windowrule {
     match:float = true
     match:fullscreen = false
     match:pin = false
-
     no_focus = true
 }
 
 # Hyprland-run windowrule
 windowrule {
     name = move-hyprland-run
-
     match:class = hyprland-run
-
     move = 20 monitor_h-120
     float = yes
 }
@@ -46,8 +42,7 @@ windowrule {
 # 1. Thunar Specifics
 windowrule {
     name = float-thunar
-    match:class = ^(Thunar)$
-    match:title = ^(File Operation Progress)|(Confirm to replace files)$
+    match:title = ^(File Operation Progress|Confirm to replace files|Rename\b.*)$
     float = yes
     center = yes
 }
