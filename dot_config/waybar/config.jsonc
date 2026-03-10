@@ -28,7 +28,7 @@
         "include": "./modules.jsonc"
     },
     {
-        "output":["LG Electronics LG ULTRAGEAR 509NTDVM2162","Ancor Communications Inc VS278 F2LMQS017257"],
+        "output":["LG Electronics LG ULTRAGEAR 509NTDVM2162","Ancor Communications Inc VS278 F2LMQS017257","LG Electronics LG FHD 509TFWV17593","LG Electronics LG FHD 508TOHT2A049"],
         "layer": "top",
         "position": "top",
         "modules-left": ["cpu", "memory", "temperature", "custom/media"],
