@@ -1,14 +1,14 @@
 # Setup base workspaces and execute apps at launch:
 
 {{- if .is_laptop }}
-workspace = 1, name:hello, monitor:eDP-1, default:true
+workspace = 1, name:base, monitor:eDP-1, default:true
 exec-once = [workspace 1 silent] /usr/bin/betterbird
 
 workspace = 2, name:browser, monitor:desc:HP Inc. HP E27 G5 CNC43529GS, default:true
 exec-once = [workspace 2 silent] zen-browser
 
 workspace = 3, name:coding, monitor:desc:HP Inc. HP E27 G5 CNC43529GS
-exec-once = [workspace 3 silent] /usr/bin/codium --profile Developer /home/cybervitor/Projects/CSTAF/CSTAF.code-workspace
+exec-once = [workspace 3 silent] /usr/bin/codium --profile CSTAF_Developer /home/cybervitor/Projects/CSTAF/CSTAF.code-workspace
 
 #workspace = 4, name:markdown, monitor:desc:HP Inc. HP E27 G5 CNC43529GS
 #exec-once = [workspace 4 silent] /usr/bin/codium --profile Markdown
@@ -18,6 +18,6 @@ exec-once = [workspace 9 silent] kitty
 
 exec-once = [workspace special:magic silent] ferdium
 {{- else }}
-workspace = 1, name:hello, monitor:DP-1, default:true
+workspace = 1, name:base, monitor:DP-1, default:true
 exec-once = [workspace 1 silent] zen-browser
 {{- end }}
