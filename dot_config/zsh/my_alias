@@ -17,7 +17,6 @@ alias s="kitten ssh"
 alias st="cd $HOME/Projects/CSTAF/estatisticas/" 
 alias bdsta="cd $HOME/Projects/CSTAF/bdsta/"
 alias sig="cd $HOME/Projects/CSTAF/sigtaf/"
-alias notes="micro $HOME/Documents/notes.mk"
 
 # Quick editing
 alias edit-alias='chezmoi edit $ZDOTDIR/my_alias'

@@ -33,6 +33,7 @@ fi
 
 # Load Aliases
 source $ZDOTDIR/my_alias
+source $ZDOTDIR/my_functions
 source $ZDOTDIR/work_alias
 
 # Load Keybinds
