@@ -1,0 +1,28 @@
+# My personal functions
+
+notebook() {
+    local notesArray=("Personal/personal_notes.md" "Work/work_notes.md" "Certification/certification_notes.md")
+	local toRun="$HOME/Documents/"
+
+	if [[ $# -eq 0 ]]; then
+        micro $toRun"${notesArray[1]}"
+        return 0
+    fi
+
+    case "$1" in
+        "work")
+            toRun+="${notesArray[2]}"
+            ;;
+        "cert")
+            toRun+="${notesArray[3]}"
+            ;;
+        *)
+            echo "Invalid option: $1, choose a valid one (work | cert) or leave empty for personal notes"
+            return 1
+            ;;
+    esac
+    
+    micro "$toRun"
+    return 0
+}
+alias notes=notebook

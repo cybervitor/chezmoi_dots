@@ -35,3 +35,7 @@ alias edit-hyprconf-input="chezmoi edit $HYPRDIR/input.conf"
 alias edit-hyprconf-keybinds="chezmoi edit $HYPRDIR/keybinds.conf"
 alias edit-hyprconf-windows_workspaces="chezmoi edit $HYPRDIR/windows_workspaces.conf"
 
+# Aider
+# Gemini reasons more, Cerebras is faster
+alias aider="aider --model gemini/gemini-2.5-pro"
+alias aider-fast="aider --model cerebras/llama3.3-70b"
