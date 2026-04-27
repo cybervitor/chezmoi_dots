@@ -35,7 +35,9 @@ alias edit-hyprconf-input="chezmoi edit $HYPRDIR/input.conf"
 alias edit-hyprconf-keybinds="chezmoi edit $HYPRDIR/keybinds.conf"
 alias edit-hyprconf-windows_workspaces="chezmoi edit $HYPRDIR/windows_workspaces.conf"
 
-# Aider
-# Gemini reasons more, Cerebras is faster
-alias aider="aider --model gemini/gemini-2.5-pro"
-alias aider-fast="aider --model cerebras/llama3.3-70b"
+# Aider - Gemini is balanced, Llamma is fastest, Qwen is fast but better, GPT has very little tokens
+alias aid="aider --model gemini/gemini-2.5-flash"
+alias aid-ffast="aider --model groq/llama-3.3-70b-versatile"
+alias aid-fast="aider --model groq/qwen/qwen3-32b"
+alias aid-smart="aider --model mistral/mistral-large-2512"
+alias aid-snipe="OPENAI_API_BASE=https://models.inference.ai.azure.com OPENAI_API_KEY=$GITHUB_TOKEN aider --model openai/gpt-4o"
