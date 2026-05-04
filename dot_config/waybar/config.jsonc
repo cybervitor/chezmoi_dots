@@ -1,6 +1,6 @@
 // -*- mode: jsonc -*-
 [
-    {
+    {	/*Laptop Display*/
         "output":"eDP-1",
         "layer": "top",
         "position": "top",
@@ -9,8 +9,8 @@
         "modules-right": [/*"cava",*/ "network", "pulseaudio", "clock", "tray", "custom/power"],
         "include": "./modules.jsonc"
     },
-    {
-        "output":["HP Inc. HP E27 G5 CNC43529GS","Lenovo Group Limited LEN T24i-20 VNA6C15H","Lenovo Group Limited LEN T24i-20 VNA6C0XN"],
+    {	/*27' FHD Middle Display*/
+        "output":["HP Inc. HP E27 G5 CNC43529GS", "Lenovo Group Limited LEN T24i-20 VNA6C15H", "Lenovo Group Limited LEN T24i-20 VNA6C0XN"],
         "layer": "top",
         "position": "top",
         "modules-left": ["custom/media"],
@@ -18,7 +18,7 @@
         "modules-right": ["pulseaudio","clock"],
         "include": "./modules.jsonc"
     },
-    {
+    {	/*27' FHD Vertical Display*/
         "output":"HP Inc. HP E27 G5 CNC4352B36",
         "layer": "top",
         "position": "top",
@@ -27,8 +27,17 @@
         "modules-right": ["clock", /*"tray",*/ "custom/power"],
         "include": "./modules.jsonc"
     },
-    {
-        "output":["LG Electronics LG ULTRAGEAR 509NTDVM2162","Ancor Communications Inc VS278 F2LMQS017257","LG Electronics LG FHD 509TFWV17593","LG Electronics LG FHD 508TOHT2A049"],
+    {	/*27' 2K Vertical Display - HOME DESKTOP*/
+        "output":["LG Electronics LG ULTRAGEAR 509NTDVM2162"],
+        "layer": "top",
+        "position": "top",
+        "modules-left": ["cpu", "memory", "temperature", "custom/media"],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": ["network", "pulseaudio", "clock", "tray", "custom/power"],
+        "include": "./modules.jsonc"
+    },
+    {	/*Have to review*/
+        "output":["Ancor Communications Inc VS278 F2LMQS017257","LG Electronics LG FHD 509TFWV17593","LG Electronics LG FHD 508TOHT2A049"],
         "layer": "top",
         "position": "top",
         "modules-left": ["cpu", "memory", "temperature", "custom/media"],
