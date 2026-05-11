@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/
+
+# .zshrc hash: {{ include "dot_config/zsh/dot_zshrc" | sha256sum }}
+# my_alias hash: {{ include "dot_config/zsh/my_alias" | sha256sum }}
+# work_alias hash: {{ include "dot_config/zsh/work_alias" | sha256sum }}
+# my_functions hash: {{ include "dot_config/zsh/my_functions" | sha256sum }}
+echo "ZSH config changes detected by Chezmoi. Clearing Znap cache..."
+shopt -s dotglob # Alow Bash to use '*' to match hidden files
+rm -f ~/.config/zsh/*.zwc
+echo "Znap cache cleared!"

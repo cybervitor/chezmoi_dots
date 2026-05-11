@@ -1,16 +1,67 @@
-sigtaf() {
-  local container_name="sigtaf-backend"
-  local project_folder="/home/cybervitor/Projects/CSTAF/sigtaf"
+readonly BASE_PATH="$HOME/Projects/CSTAF/sigtaf"
+readonly BACKEND_PATH="$BASE_PATH/sigtaf-backend"
+readonly FRONTEND_PATH="$BASE_PATH/sigtaf-frontend"
 
-  # Check if the container is running
-  if ! docker ps --filter "name=$container_name" --format "{{.Names}}" | grep -q "$container_name"; then
-    echo "Error: Docker container '$container_name' is not running."
-    return 1 # Exit with an error
-  fi
+function start-sigtaf() {
+	sudo -v 				# asks for sudo perms upfront								
 
-  # Execute the command inside the container
-  docker exec -it "$container_name" bash -c "\"\$@\"" -- "$@"
+	while true
+	do
+		sudo -n true				# -n for non-interactive, if cache SOMEHOW fails, this subthread fails gracefully
+		sleep 60
+		kill -0 "$$" || exit    	# kill -0 "$$" kills this subprogram when it wakes up from 
+	done 2>/dev/null &				# sleep and realizes the main program isn't running anymore
+	
+	parallel-update-repos \
+			 $BACKEND_PATH \			# Update both repositories
+			 $FRONTEND_PATH
 
-  # Fix permissions
-  sudo chown $USER $project_folder -R
+	echo "Updating Backend"
+	( cd $BACKEND_PATH && make setup )		# Check for updates + resets DB
+
+	echo "Updating and starting Frontend"
+	( cd $FRONTEND_PATH && npm start )		# Spins up Backend
+	
+}
+alias up-sig=start-sigtaf
+
+function parallel-update-repos() {								# Must recieve at least one git repository path
+
+	local projects=("$@")										# Takes ALL passed arguments into a local array
+	if [ ${#projects[@]} -eq 0 ]; then							# check if any projects were passed by parameter
+		echo "Error: No projects provided." >&2
+		return 1
+	fi
+
+	local err_file="/tmp/sigtaf_errors_$$"						# Create a unique temporary file to track global errors, =$(mktemp) would also be a good idea
+	echo "Starting concurrent updates..."
+	(
+		for repo in "${projects[@]}"; do
+		
+			if [ -d "$repo" ]; then			
+			{													# Wrap the git pull AND the "promise"/follow-up logic in a { } command group 
+				git -C "$repo" pull --ff-only > /dev/null
+				local exit_code=$?
+				if [ $exit_code -eq 0 ]; then
+			   		echo "Success: $(basename "$repo")"			# Parse the git payload/trigger other scripts here
+				else
+			   		echo "Err: $(basename "$repo") failed" >&2
+			   		touch "$err_file" 							# Flag the error for the parent
+				fi
+			} & 												# background the WHOLE THING
+			else
+				echo "Directory not found: $repo" >&2
+				touch "$err_file"
+			fi
+		done
+		wait
+	)
+	if [ -f "$err_file" ]; then									# Check if any background workers created the error file
+		rm "$err_file" # Clean up
+		echo "There was an error updating the projects!"
+		return 1
+	else
+		echo "All projects updated!"
+		return 0
+	fi
 }
