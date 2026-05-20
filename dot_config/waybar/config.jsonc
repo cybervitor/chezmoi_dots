@@ -9,6 +9,15 @@
         "modules-right": [/*"cava",*/ "network", "pulseaudio", "clock", "tray", "custom/power"],
         "include": "./modules.jsonc"
     },
+    {	/*27' FHD Left Display (When not using Laptop Screen)*/
+        "output":"HP Inc. HP E27 G5 CNC43529GK",
+        "layer": "top",
+        "position": "top",
+        "modules-left": ["cpu", "memory", "temperature", "battery#bat0", "battery#bat1"],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": ["network","clock"],
+        "include": "./modules.jsonc"
+    },
     {	/*27' FHD Middle Display*/
         "output":["HP Inc. HP E27 G5 CNC43529GS", "Lenovo Group Limited LEN T24i-20 VNA6C15H", "Lenovo Group Limited LEN T24i-20 VNA6C0XN"],
         "layer": "top",
@@ -22,9 +31,9 @@
         "output":"HP Inc. HP E27 G5 CNC4352B36",
         "layer": "top",
         "position": "top",
-        "modules-left": ["cpu", "memory", "temperature","network"],
+        "modules-left": ["cpu", "memory", "temperature"],
         "modules-center": ["hyprland/workspaces"],
-        "modules-right": ["clock", /*"tray",*/ "custom/power"],
+        "modules-right": ["clock","tray","custom/power"],
         "include": "./modules.jsonc"
     },
     {	/*27' 2K Vertical Display - HOME DESKTOP*/

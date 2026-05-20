@@ -11,10 +11,11 @@ function start-sigtaf() {
 		sleep 60
 		kill -0 "$$" || exit    	# kill -0 "$$" kills this subprogram when it wakes up from 
 	done 2>/dev/null &				# sleep and realizes the main program isn't running anymore
+
+	echo $BACKEND_PATH
+	echo $FRONTEND_PATH
 	
-	parallel-update-repos \
-			 $BACKEND_PATH \			# Update both repositories
-			 $FRONTEND_PATH
+	parallel-update-repos $BACKEND_PATH	$FRONTEND_PATH	# Update both repositories
 
 	echo "Updating Backend"
 	( cd $BACKEND_PATH && make setup )		# Check for updates + resets DB
@@ -27,12 +28,13 @@ alias up-sig=start-sigtaf
 
 function parallel-update-repos() {								# Must recieve at least one git repository path
 
+	echo $@
 	local projects=("$@")										# Takes ALL passed arguments into a local array
 	if [ ${#projects[@]} -eq 0 ]; then							# check if any projects were passed by parameter
 		echo "Error: No projects provided." >&2
 		return 1
 	fi
-
+	
 	local err_file="/tmp/sigtaf_errors_$$"						# Create a unique temporary file to track global errors, =$(mktemp) would also be a good idea
 	echo "Starting concurrent updates..."
 	(

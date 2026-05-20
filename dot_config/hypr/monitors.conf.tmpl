@@ -1,29 +1,14 @@
 # See https://wiki.hyprland.org/Configuring/Monitors/
 
 {{- if .is_laptop }}
-# Laptop Monitor
-monitorv2 {
-  output = eDP-1
-  mode = 1920x1080@60.02Hz
-  position = 0x0
-  scale = 1
-}
 
 # Work Monitors
-monitorv2 {
-  output = desc:HP Inc. HP E27 G5 CNC43529GS
-  mode = 1920x1080@74.97
-  position = 1920x-720
-  scale = 1
-}
+monitor = desc:HP Inc. HP E27 G5 CNC43529GK, 1920x1080@74.97Hz, 0x0, 1
+monitor = desc:HP Inc. HP E27 G5 CNC43529GS, 1920x1080@74.97Hz, 1920x0, 1
+monitor = desc:HP Inc. HP E27 G5 CNC4352B36, 1920x1080@74.97Hz, 3840x-520, 1, transform, 3 #270 degrees
 
-monitorv2 {
-  output = desc:HP Inc. HP E27 G5 CNC4352B36
-  mode = 1920x1080@74.97
-  position = 3840x-1150
-  scale = 1
-  transform = 3 #270 degrees
-}
+# Laptop Monitor
+source = ~/.config/hypr/edp_state.conf
 
 # Home Basement Monitors
 monitor = desc:Lenovo Group Limited LEN T24i-20 VNA6C15H, 1920x1080@60.00Hz, 1920x-720, 1
