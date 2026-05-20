@@ -7,6 +7,9 @@ env = LIBVA_DRIVER_NAME,iHD
 # env = NVD_BACKEND,direct
 {{- else }}
 env = LIBVA_DRIVER_NAME,radeonsi
+env = VDPAU_DRIVER,radeonsi
+env = AQ_DRM_DEVICES,/dev/dri/amd_gpu:/dev/dri/intel_gpu
+env = VULKAN_ICD_FILENAMES,/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:/usr/share/vulkan/icd.d/radeon_icd.i686.json
 {{- end }}
 
 # --- Desktop Portal (D-Bus) ---
