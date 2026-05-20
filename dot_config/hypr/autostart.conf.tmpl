@@ -18,5 +18,5 @@ exec-once = eww daemon # > /dev/null 2>&1 &
 exec-once = systemctl --user start hyprpolkitagent # > /dev/null 2>&1 &
 {{- if .is_laptop }}
 exec-once = solaar -w hide > /dev/null 2>&1 &
-exec-once = kanshi > /dev/null 2>&1 &
+# exec-once = sleep 5 && kanshi > /dev/null 2>&1 &
 {{- end }}

@@ -1,7 +1,7 @@
 # My personal functions
 
 notebook() {
-    local notesArray=("Personal/personal_notes.md" "Work/work_notes.md" "Certification/certification_notes.md")
+    local notesArray=("notes.md" "Work/work_notes.md" "Certification/certification_notes.md" "Personal/personal_notes.md")
 	local toRun="$HOME/Documents/"
 
 	if [[ $# -eq 0 ]]; then
@@ -16,8 +16,11 @@ notebook() {
         "cert")
             toRun+="${notesArray[3]}"
             ;;
+        "personal")
+            toRun+="${notesArray[4]}"
+            ;;
         *)
-            echo "Invalid option: $1, choose a valid one (work | cert) or leave empty for personal notes"
+            echo "Invalid option: $1, choose a valid one (work | cert | personal) or leave empty for general notes"
             return 1
             ;;
     esac
