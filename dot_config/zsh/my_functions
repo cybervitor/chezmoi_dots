@@ -29,3 +29,14 @@ notebook() {
     return 0
 }
 alias notes=notebook
+
+silent-update-grub() {
+    echo "Generating GRUB configuration at /boot/grub/grub.cfg ..."
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+    
+    echo "=> Silencing GRUB output..."	# Deletes any line that contains 'echo Loading*'
+    sudo sed -i -E '/^[[:space:]]*echo[[:space:]]+'\''Loading /d' /boot/grub/grub.cfg
+    
+    echo "=> Done! Silent boot maintained."
+}
+alias silent-grub=silent-update-grub

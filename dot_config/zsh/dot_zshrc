@@ -36,5 +36,4 @@ source $ZDOTDIR/keybinds			# Load Keybinds
 
 source $ZDOTDIR/lazy_load_nvm 		# Lazy-loads NVM for 0ms added on terminal opening
 
-eval $(thefuck --alias)
 eval $(keychain --absolute --dir "$XDG_RUNTIME_DIR"/keychain --eval --quiet id_ed25519)

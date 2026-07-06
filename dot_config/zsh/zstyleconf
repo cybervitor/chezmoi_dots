@@ -1,8 +1,8 @@
-# Case insensitive completion (cd doc -> Documents)
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
 # Allows you to select files with arrows when hitting Tab multiple times
 zstyle ':completion:*' menu select
+
+# Case insensitive completion (cd doc -> Documents)
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Don't complete the current directory (it's redundant)
 zstyle ':completion:*' ignore-parents parent pwd

@@ -1,13 +1,5 @@
 
 {
-    "cava": {
-        "cava_config": "$HOME/.config/cava/config",
-        "bar_delimiter": 0,
-        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
-        "actions": {
-            "on-click-right": "mode"
-        }
-    },
     "tray": {
         "icon-size": 26,
         "spacing": 5
@@ -136,25 +128,5 @@
             "suspend": "systemctl suspend",
             "hibernate": "systemctl hibernate"
         }
-    },
-    "custom/cava-left": {
-        "exec": "$HOME/.config/waybar/scripts/cava-waybar.sh",
-        "format": "{}",
-        "return-type": "",
-        "interval": 0,
-        "escape": false,
-        "tooltip": false,
-        "on-click": "$HOME/.config/waybar/scripts/cava-opener.sh top"
-    },
-
-    "custom/cava-right": {
-        "exec": "$HOME/.config/waybar/scripts/cava-waybar.sh",
-        "format": "{}",
-        "return-type": "",
-        "interval": 0,
-        "escape": false,
-        "tooltip": false,
-        "on-click": "$HOME/.config/waybar/scripts/cava-opener.sh bottom"
     }
-
 }

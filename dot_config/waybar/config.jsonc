@@ -4,18 +4,18 @@
         "output":"eDP-1",
         "layer": "top",
         "position": "top",
-        "modules-left": ["cpu", "memory", "temperature", "battery#bat0", "battery#bat1"/*"custom/media"*/],
+        "modules-left": ["cpu", "memory", "temperature", "battery#bat0", "battery#bat1"],
         "modules-center": ["hyprland/workspaces"],
-        "modules-right": [/*"cava",*/ "network", "pulseaudio", "clock", "tray", "custom/power"],
+        "modules-right": ["network", "pulseaudio", "clock", "tray", "custom/power"],
         "include": "./modules.jsonc"
     },
     {	/*27' FHD Left Display (When not using Laptop Screen)*/
         "output":"HP Inc. HP E27 G5 CNC43529GK",
         "layer": "top",
         "position": "top",
-        "modules-left": ["cpu", "memory", "temperature", "battery#bat0", "battery#bat1"],
+        "modules-left": ["custom/media"],
         "modules-center": ["hyprland/workspaces"],
-        "modules-right": ["network","clock"],
+        "modules-right": ["pulseaudio","tray","clock"],
         "include": "./modules.jsonc"
     },
     {	/*27' FHD Middle Display*/
@@ -23,17 +23,17 @@
         "layer": "top",
         "position": "top",
         "modules-left": ["custom/media"],
-        "modules-center": ["custom/cava-left","hyprland/workspaces","custom/cava-right"],
-        "modules-right": ["pulseaudio","clock"],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": ["pulseaudio","tray","clock"],
         "include": "./modules.jsonc"
     },
     {	/*27' FHD Vertical Display*/
         "output":"HP Inc. HP E27 G5 CNC4352B36",
         "layer": "top",
         "position": "top",
-        "modules-left": ["cpu", "memory", "temperature"],
+        "modules-left": [],
         "modules-center": ["hyprland/workspaces"],
-        "modules-right": ["clock","tray","custom/power"],
+        "modules-right": ["network","tray","custom/power"],
         "include": "./modules.jsonc"
     },
     {	/*27' 2K Vertical Display - HOME DESKTOP*/
@@ -52,6 +52,15 @@
         "modules-left": ["cpu", "memory", "temperature", "custom/media"],
         "modules-center": ["hyprland/workspaces"],
         "modules-right": ["network", "pulseaudio", "clock", /*"tray",*/ "custom/power"],
+        "include": "./modules.jsonc"
+    },
+    {	/*Tablet Display*/
+        "output":"Virtual-1",
+        "layer": "top",
+        "position": "top",
+        "modules-left": ["cpu", "memory", "temperature"],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": ["battery#bat0", "battery#bat1", "clock"],
         "include": "./modules.jsonc"
     }
 ]

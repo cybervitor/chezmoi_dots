@@ -20,3 +20,6 @@
 	
 [merge]
 	ff = false
+[http "https://git.cstaf"]
+	lowSpeedLimit = 1000
+	lowSpeedTime = 1
