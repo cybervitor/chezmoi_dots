@@ -36,4 +36,8 @@ source $ZDOTDIR/keybinds			# Load Keybinds
 
 source $ZDOTDIR/lazy_load_nvm 		# Lazy-loads NVM for 0ms added on terminal opening
 
-eval $(keychain --absolute --dir "$XDG_RUNTIME_DIR"/keychain --eval --quiet id_ed25519)
+local keychain_dir="${XDG_RUNTIME_DIR:-$HOME/.local/share/keychain}"	# Use XDG_RUNTIME_DIR if it exists; otherwise, fallback to ~/.local/share/keychain
+
+[[ -d "$keychain_dir" ]] || mkdir -p "$keychain_dir"	# Ensure the directory exists
+
+eval $(keychain --absolute --dir "$keychain_dir" --eval --quiet id_ed25519)

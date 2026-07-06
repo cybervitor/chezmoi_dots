@@ -3,5 +3,5 @@
 if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
     # We use 'exec' to replace the ZSH shell process with your bash script.
     # This ensures no extra shell processes are left running in the background!
-    exec /home/cybervitor/.config/hypr/launch_hyprland.sh > /home/cybervitor/hyprland.log 2>&1
+    exec /home/cybervitor/.config/hypr/launch_hyprland.sh > /dev/null 2>&1
 fi
