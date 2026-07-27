@@ -40,6 +40,7 @@ export EDITOR=micro
 export VISUAL=micro
 
 export LLAMA_CPP_PATH="$HOME/.local/bin"
+export PATH="$HOME/src/Odin:$PATH"
 
 # --- Path Manipulation ---
 typeset -U path PATH
