@@ -4,7 +4,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# --- NPM Cleanup ---
+# --- NPM Cleanup --- Removed because of lazy_load_nvm
 #export NPM_CONFIG_INIT_MODULE="$XDG_CONFIG_HOME/npm/config/npm-init.js"
 #export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 #export NPM_CONFIG_TMP="/run/user/$(id -u)/npm"
@@ -27,6 +27,18 @@ export ANDROID_USER_HOME="$XDG_DATA_HOME"/android
 export ANDROID_AVD_HOME=$XDG_DATA_HOME/android/avd
 alias adb='HOME="$XDG_DATA_HOME"/android adb'
 
+# --- Python ---
+export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/pythonrc.py
+export PYTHON_HISTORY="$XDG_STATE_HOME"/python_history
+
+# --- Others ---
+alias wget="wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
+export LLAMA_CPP_PATH="$HOME/.local/bin"
+export PATH="$HOME/src/Odin:$PATH"
+export MLFLOW_TRACKING_URI="sqlite:///${XDG_DATA_HOME:-$HOME/.local/share}/mlflow/mlflow.db"
+export STORYBOOK_DISABLE_TELEMETRY=1
+export SWT_LIBRARY_PATH="$XDG_DATA_HOME"/swt
+
 
 # --- Personal Variables ---
 export HYPRDIR="$XDG_CONFIG_HOME"/hypr
@@ -38,9 +50,6 @@ source $ZDOTDIR/.api_keys_env
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 export EDITOR=micro
 export VISUAL=micro
-
-export LLAMA_CPP_PATH="$HOME/.local/bin"
-export PATH="$HOME/src/Odin:$PATH"
 
 # --- Path Manipulation ---
 typeset -U path PATH

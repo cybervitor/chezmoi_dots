@@ -5,9 +5,8 @@ fi
 source $ZDOTDIR/historyconf			# Load ZSH Quality of Life Rules
 source $ZDOTDIR/zstyleconf			# Load ZSH Quality of Life Rules
 fpath=($ZDOTDIR/completions $fpath) # Load completions
-keychain_dir="${XDG_RUNTIME_DIR:-$HOME/.local/share/keychain}"	# Use XDG_RUNTIME_DIR if it exists; otherwise, fallback to ~/.local/share/keychain
-znap_source="$XDG_DATA_HOME/zsh/znap/znap.zsh"
 
+znap_source="$XDG_DATA_HOME/zsh/znap/znap.zsh"
 if [[ ! -f "$znap_source" ]]; then
 	echo "Installing Znap..."
     git clone --depth 1 -- \		# Bootstrap ZSnap
@@ -31,5 +30,7 @@ source $ZDOTDIR/work_alias
 source $ZDOTDIR/keybinds			# Load Keybinds
 source $ZDOTDIR/lazy_load_nvm 		# Lazy-loads NVM for 0ms added on terminal opening
 
+keychain_dir="${XDG_RUNTIME_DIR:-$HOME/.local/share/keychain}"	# Use XDG_RUNTIME_DIR if it exists; otherwise, fallback to ~/.local/share/keychain
 [[ -d "$keychain_dir" ]] || mkdir -p "$keychain_dir"	# Ensure the directory exists
-eval $(keychain --absolute --dir "$keychain_dir" --eval --quiet id_ed25519)
+
+eval "$(keychain add --eval --absolute --dir "$keychain_dir" --quiet id_ed25519)"
