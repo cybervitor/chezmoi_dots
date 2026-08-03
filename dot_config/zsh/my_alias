@@ -16,6 +16,7 @@ alias s="kitten ssh"
 alias cz="chezmoi cd"
 alias tss="clear && echo '\n\n' && fastfetch && echo '\n\n' && kitty +kitten icat ~/Pictures/Wallpapers/gundam-pixel-arts.gif"
 alias ff="fastfetch"
+alias fff="clear && fastfetch"
 alias mon="hyprctl monitors"
 alias clean-paru="paru -Scc"
 
