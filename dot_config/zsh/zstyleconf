@@ -5,12 +5,19 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Don't complete the current directory (it's redundant)
-zstyle ':completion:*' ignore-parents parent pwd
+zstyle ':completion:*' ignore-parents pwd
 
 # Sort files by name
 zstyle ':completion:*' file-sort name
 
+# Hide internal Znap functions from all autocompletion
+zstyle ':completion:*' ignored-patterns '..znap*'
+
 zstyle ':completion:*' completer _complete _ignored _approximate
+zstyle ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+
+# Treat '..' as a valid directory completion candidate (auto-appends '/')
+zstyle ':completion:*' special-dirs ..
 
 # Groups results into categories (e.g., 'Aliases', 'Directories', 'Commands')
 zstyle ':completion:*:*:*:*:*' menu select

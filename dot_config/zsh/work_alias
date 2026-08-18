@@ -1,3 +1,6 @@
+export MARIADB_USER="root" 			# THIS IS FOR DEV MACHINE ONLY, DONT WORRY
+export MARIADB_PASSWORD="sigtaf"
+
 function parallel-update-repos() {								# Must recieve at least one git repository path
 
 	local projects=("$@")										# Takes ALL passed arguments into a local array
@@ -63,6 +66,6 @@ function start-sigtaf() {
     echo "Tailing backend logs..."
     
 }
-alias up-sig=start-sigtaf
+alias upsig=start-sigtaf
 
 alias sig-logs="docker logs -f sigtaf-backend"

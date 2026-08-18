@@ -1,0 +1,210 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // Global default model — paid direct endpoint. Full context, no free-tier
+  // rate limits/contention. Used as fallback for any agent that doesn't set
+  // its own model.
+  "model": "google-vertex/gemini-3.1-pro-preview-customtools",
+  "default_agent": "architect",
+  "autoupdate": "notify",
+  "logLevel": "INFO",
+
+  "plugin": [
+    "opencode-notify",
+    "opencode-vibeguard",
+    "opencode-shell-strategy"
+  ],
+
+  // small_model: used internally by OpenCode itself, NOT by your custom
+  // agents. Two known uses: (1) generating session titles when you start a
+  // new chat, (2) internal summarization during context compaction. Both
+  // are frequent, tiny, low-stakes calls.
+  "small_model": "google-vertex/gemini-3.5-flash-lite",
+
+  // Project references specific to CSTAF
+  "references": {
+    "handbook": {
+      "path": "/home/cybervitor/Projects/CSTAF/handbook/handbook.wiki",
+      "description": "Use for architectural guidelines, Git Trunk Based Development rules, and common pitfalls for CSTAF."
+    },
+    "teamdocs": {
+      "path": "/home/cybervitor/Documents/Work/Software Team Documentation",
+      "description": "Logseq knowledge base, ADRs and domain specs for CSTAF/SIGTAF."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // 1. LANGUAGE SERVER PROTOCOL (LSP) CONFIGURATION
+  // ---------------------------------------------------------------------------
+  "lsp": {
+    "json": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": [".json", ".jsonc"]
+    },
+    "php": {
+      "command": ["intelephense", "--stdio"],
+      "extensions": [".php"]
+    },
+    "typescript": {
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".js"]
+    },
+    "python": {
+      "command": ["pyright-langserver", "--stdio"],
+      "extensions": [".py"]
+    },
+    "odin": {
+      "command": ["ols"],
+      "extensions": [".odin"]
+    },
+    "bash": {
+      "command": ["bash-language-server", "start"],
+      "extensions": [".sh", ".bash"]
+    },
+    "html": {
+      "command": ["vscode-html-language-server", "--stdio"],
+      "extensions": [".html"]
+    },
+    "css": {
+      "command": ["vscode-css-language-server", "--stdio"],
+      "extensions": [".css", ".scss"]
+    },
+    "makefile": {
+      "command": ["makefile-lsp"],
+      "extensions": ["Makefile", ".mk"]
+    },
+    "tailwind": {
+      "command": ["tailwindcss-language-server", "--stdio"],
+      "extensions": [".css", ".scss", ".html"]
+    },
+    "markdown": {
+      "command": ["marksman", "server"],
+      "extensions": [".md", ".markdown", ".mdx"]
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // 2. BROWSER & DOCUMENTATION MCP SERVERS
+  // ---------------------------------------------------------------------------
+  "mcp": {
+    // A. THE API BRIDGE: OpenAPI / REST Server
+    "openapi": {
+      "type": "local",
+      "command": ["uvx", "--with", "mcp<1.6", "mcp-openapi-proxy"],
+      "environment": {
+        "OPENAPI_SPEC_URL": "http://localhost:8765/swagger.json"
+      }
+    },
+
+    // B. ANTI-HALLUCINATION: Documentation Scrapers
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "environment": { "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}" }
+    },
+    "firecrawl": {
+      "type": "local",
+      "command": ["npx", "-y", "firecrawl-mcp"],
+      "environment": {
+        "FIRECRAWL_API_KEY": "{env:FIRECRAWL_API_KEY}"
+      }
+    },
+
+    // C. CODE SEARCH: Vercel's github grep
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+
+    // D. LOCAL GIT: Safe, read-only repository history
+    "git": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--with",
+        "mcp<2,>=1.7",
+        "mcp-server-git"
+      ]
+    },
+
+    // E. GITLAB: Issue tracking and contract management
+    "gitlab": {
+      "type": "local",
+      "command": ["npx", "-y", "@zereight/mcp-gitlab"],
+      "environment": {
+        "GITLAB_PERSONAL_ACCESS_TOKEN": "{env:GITLAB_PERSONAL_ACCESS_TOKEN}",
+        "GITLAB_API_URL": "https://git.cstaf/api/v4",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    },
+
+    // F. FILESYSTEM: Multi-repository workspace boundaries
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-frontend",
+        "/home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-backend",
+        "/home/cybervitor/Projects/CSTAF/bdsta/bdsta-frontend",
+        "/home/cybervitor/Projects/CSTAF/bdsta/bdsta-backend",
+        "/home/cybervitor/Projects/CSTAF/handbook/handbook.wiki",
+        "/home/cybervitor/Documents/Work/Software Team Documentation",
+        "/home/cybervitor/.config/opencode"
+      ]
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // 3. SAFETY GUARDRAILS & PERMISSIONS
+  // ---------------------------------------------------------------------------
+  // NOTE: Order matters in bash permissions! Broad rules ("*": "allow") must be
+  // specified FIRST, followed by specific denials and prompts.
+  "permission": {
+    "git_git_add": "deny",
+    "git_git_commit": "deny",
+    "git_git_reset": "deny",
+    "git_git_checkout": "deny",
+    "git_git_create_branch": "deny",
+    "bash": {
+      "*": "allow",
+      "*git push*": "deny",
+      "*git commit*": "deny",
+      "*git merge*": "deny",
+      "*git rebase*": "deny",
+      "*git cherry-pick*": "deny",
+      "*mysql*": "deny",
+      "*psql*": "deny",
+      "*rm -rf*": "deny",
+      "*sudo*": "ask",
+      "*systemctl*": "ask",
+      "*docker rm*": "ask",
+      "*docker rmi*": "ask",
+      "*docker kill*": "ask",
+      "*docker compose down*": "ask",
+      "*kubectl delete*": "ask",
+      "*git reset --hard*": "ask",
+      "*git clean*": "ask",
+      "*cake migrations*": "ask"
+    },
+    "external_directory": "ask",
+    "docker_*": "ask"
+  },
+
+  // ---------------------------------------------------------------------------
+  // 4. AGENTS & ROLE ROUTING
+  // ---------------------------------------------------------------------------
+  "agent": {
+    "plan": { "disable": true },
+    "lint": { "disable": true },
+    "autocomplete": { "disable": true }
+  },
+
+  // ---------------------------------------------------------------------------
+  // 5. GLOBAL STACK INSTRUCTIONS
+  // ---------------------------------------------------------------------------
+  "instructions": [
+    "~/.config/opencode/instructions.md"
+  ]
+}
