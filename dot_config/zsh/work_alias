@@ -59,11 +59,11 @@ function start-sigtaf() {
 	parallel-update-repos $BACKEND_PATH	$FRONTEND_PATH					# Update both repositories
 
 	echo "Updating Backend"
-	( cd $BACKEND_PATH && make setup )									# Check for updates + resets DB
+	( cd $BACKEND_PATH && make reset )									# Check for updates + resets DB
 
 	echo "Updating and starting Frontend"
     ( cd "$FRONTEND_PATH" && npm start)									# Spin up frontend         
-    echo "Tailing backend logs..."
+    #echo "Tailing backend logs..."
     
 }
 alias upsig=start-sigtaf

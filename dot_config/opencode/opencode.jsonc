@@ -188,7 +188,12 @@
       "*git clean*": "ask",
       "*cake migrations*": "ask"
     },
-    "external_directory": "ask",
+    "external_directory": {
+      "*": "ask",
+      "/home/cybervitor/Projects/CSTAF/**": "allow",
+      "/home/cybervitor/Documents/Work/Software Team Documentation/**": "allow",
+      "/home/cybervitor/.config/opencode/**": "allow"
+    },
     "docker_*": "ask"
   },
 
