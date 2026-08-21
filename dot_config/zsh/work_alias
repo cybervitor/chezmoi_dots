@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 export MARIADB_USER="root" 			# THIS IS FOR DEV MACHINE ONLY, DONT WORRY
 export MARIADB_PASSWORD="sigtaf"
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 export NVM_DIR="/usr/share/nvm"
 
 alias nvm="lazy_load_nvm nvm"												# Fake aliases for completions
@@ -11,6 +13,6 @@ function lazy_load_nvm() {
     unalias node npm npx yarn nvm 2>/dev/null								# Remove the fake aliases so they don't loop     
     [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"					# Boot up the real NVM
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-    "$@"     																# Execute whatever command you originally typed
+    "$@"     																# Execute whatever command was originally typed
 }
 

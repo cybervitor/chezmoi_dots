@@ -1,4 +1,4 @@
-# Personal Aliases
+#!/usr/bin/env zsh
 
 # Alter default behaviour
 alias ls='ls --color=auto'
@@ -19,18 +19,20 @@ alias ff="fastfetch"
 alias fff="clear && fastfetch"
 alias mon="hyprctl monitors"
 alias clean-paru="paru -Scc"
+alias oc-back="opencode /home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-backend"
+alias oc-front="opencode /home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-frontend"
+alias oc-config="opencode /home/cybervitor/.config/opencode"
 
 # Quick editing
 alias edit-alias='chezmoi edit $ZDOTDIR/my_alias && chezmoi apply'
 alias edit-work-alias='chezmoi edit $ZDOTDIR/work_alias && chezmoi apply'
 alias edit-zshrc='chezmoi edit $ZDOTDIR/.zshrc && chezmoi apply'
 alias edit-zenv='chezmoi edit $ZDOTDIR/.zshenv && chezmoi apply'
+alias edit-zprofile='chezmoi edit $ZDOTDIR/.zprofile && chezmoi apply'
 alias edit-keybinds-zterminal='chezmoi edit $ZDOTDIR/keybinds && chezmoi apply'
 alias edit-hypr-base="chezmoi edit $HYPRDIR/hyprland.lua && chezmoi apply"
+alias edit-opencode="chezmoi edit /home/cybervitor/.config/opencode/opencode.jsonc && chezmoi apply"
 
-# Aider - Gemini is balanced, Llamma is fastest, Qwen is fast but better, GPT has very little tokens
-alias aid="aider --model gemini/gemini-2.5-flash"
-alias aid-ffast="aider --model groq/llama-3.3-70b-versatile"
-alias aid-fast="aider --model groq/qwen/qwen3-32b"
-alias aid-smart="aider --model mistral/mistral-large-2512"
-alias aid-snipe="OPENAI_API_BASE=https://models.inference.ai.azure.com OPENAI_API_KEY=$GITHUB_TOKEN aider --model openai/gpt-4o"
+# Cleaning home directory
+alias adb='HOME="$XDG_DATA_HOME"/android adb'
+alias wget="wget --hsts-file=$XDG_DATA_HOME/wget-hsts"

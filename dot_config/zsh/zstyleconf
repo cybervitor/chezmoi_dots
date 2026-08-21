@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Allows you to select files with arrows when hitting Tab multiple times
 zstyle ':completion:*' menu select
 

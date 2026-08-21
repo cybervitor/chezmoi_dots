@@ -1,36 +1,34 @@
-if [[ -r "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" # PL10k Instant Prompt
-fi
+#!/usr/bin/env zsh
 
-source $ZDOTDIR/historyconf			# Load ZSH Quality of Life Rules
-source $ZDOTDIR/zstyleconf			# Load ZSH Quality of Life Rules
-fpath=($ZDOTDIR/completions $fpath) # Load completions
+if [[ -r "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
+fi										# PL10k Instant Prompt
+
+source $ZDOTDIR/historyconf				# Load ZSH Quality of Life Rules
+source $ZDOTDIR/zstyleconf
+fpath=($ZDOTDIR/completions $fpath) 	# Load completions
 
 znap_source="$XDG_DATA_HOME/zsh/znap/znap.zsh"
-if [[ ! -f "$znap_source" ]]; then
+if [[ ! -f "$znap_source" ]]; then		# Bootstrap ZSnap
 	echo "Installing Znap..."
-    git clone --depth 1 -- \		# Bootstrap ZSnap
+    git clone --depth 1 -- \
         https://github.com/marlonrichert/zsh-snap.git "$XDG_DATA_HOME/zsh/znap"
 fi
 source "$znap_source"
 
-# Load ZSnap Plugins
+# Load ZSnap Plugins and PL10K Theme
 znap source ohmyzsh/ohmyzsh lib/git lib/theme-and-appearance plugins/git
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
-znap source romkatv/powerlevel10k 	# Load PL10K Themes
+znap source romkatv/powerlevel10k
 
-if [[ -f "$ZDOTDIR/.p10k.zsh" ]]; then	# Load PL10K Configs
-    source "$ZDOTDIR/.p10k.zsh"
+if [[ -f "$ZDOTDIR/.p10k.zsh" ]]; then
+    source "$ZDOTDIR/.p10k.zsh"			# Load PL10K Configs
 fi
 
 source $ZDOTDIR/my_alias
-source $ZDOTDIR/my_functions		# Load aliases and functions
+source $ZDOTDIR/my_functions			# Load aliases and functions
 source $ZDOTDIR/work_alias
-source $ZDOTDIR/keybinds			# Load Keybinds
-source $ZDOTDIR/lazy_load_nvm 		# Lazy-loads NVM for 0ms added on terminal opening
+source $ZDOTDIR/keybinds				# Load Keybinds
+source $ZDOTDIR/lazy_load_nvm 			# Lazy-loads NVM for 0ms added on terminal opening
 
-keychain_dir="${XDG_RUNTIME_DIR:-$HOME/.local/share/keychain}"	# Use XDG_RUNTIME_DIR if it exists; otherwise, fallback to ~/.local/share/keychain
-[[ -d "$keychain_dir" ]] || mkdir -p "$keychain_dir"	# Ensure the directory exists
-
-eval "$(keychain add --eval --absolute --dir "$keychain_dir" --noask --quiet id_ed25519)"

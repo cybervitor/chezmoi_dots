@@ -1,3 +1,10 @@
+#!/usr/bin/env zsh
+
+# --- SSH Agent (KeyChain) ---
+keychain_dir="${XDG_RUNTIME_DIR:-$HOME/.local/share/keychain}"	# Use XDG_RUNTIME_DIR if it exists otherwise, fallback to ~/.local/share/keychain
+[[ -d "$keychain_dir" ]] || mkdir -p "$keychain_dir"			# Ensure the directory exists
+eval "$(keychain add --eval --absolute --dir "$keychain_dir" --noask --quiet id_ed25519)"
+
 # --- Auto-start Hyprland ---
 # Only run if we are on a pure TTY1 and a Display Server isn't already running
 if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
