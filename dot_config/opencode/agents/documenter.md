@@ -1,8 +1,10 @@
 ---
 description: Adds PHPDoc, JSDoc/TSDoc, Python docstrings, or Odin proc comments
 mode: subagent
-model: google-vertex/gemini-3.7-flash
-temperature: 0.1
+model: google-vertex/flash-current#high
+request:
+  body:
+    temperature: 0.1
 color: "#14B8A6"
 ---
 

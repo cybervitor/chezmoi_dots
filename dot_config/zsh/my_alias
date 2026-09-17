@@ -14,14 +14,26 @@ alias top="btop"
 # Shortcuts
 alias s="kitten ssh"
 alias cz="chezmoi cd"
+
 alias tss="clear && echo '\n\n' && fastfetch && echo '\n\n' && kitty +kitten icat ~/Pictures/Wallpapers/gundam-pixel-arts.gif"
 alias ff="fastfetch"
 alias fff="clear && fastfetch"
 alias mon="hyprctl monitors"
 alias clean-paru="paru -Scc"
+
+alias gits="cd ~/.local/gits"
+alias back="cd ~/Projects/CSTAF/sigtaf/sigtaf-backend"
+alias front="cd ~/Projects/CSTAF/sigtaf/sigtaf-frontend"
+alias wiki="cd ~/Projects/CSTAF/handbook/handbook.wiki"
+alias pm='cd ~/Documents/Work/"Software Team Documentation"'
+alias es="cd ~/Projects/CSTAF/sigtaf/estatisticas"
+
+# Quick opencode
 alias oc-back="opencode /home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-backend"
 alias oc-front="opencode /home/cybervitor/Projects/CSTAF/sigtaf/sigtaf-frontend"
 alias oc-config="opencode /home/cybervitor/.config/opencode"
+alias oc-pm='opencode /home/cybervitor/Documents/Work/"Software Team Documentation"'
+alias oc-es="opencode /home/cybervitor/Projects/CSTAF/sigtaf/estatisticas"
 
 # Quick editing
 alias edit-alias='chezmoi edit $ZDOTDIR/my_alias && chezmoi apply'

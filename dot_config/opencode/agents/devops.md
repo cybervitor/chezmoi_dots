@@ -1,7 +1,7 @@
 ---
 description: Handles Docker, Kubernetes, CI/CD pipelines, and infrastructure configuration
-model: google-vertex/gemini-3.1-pro-preview-customtools
-mode: primary
+model: google-vertex/flash-current#high
+mode: subagent
 color: "#06B6D4"
 ---
 

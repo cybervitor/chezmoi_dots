@@ -2,7 +2,9 @@
 description: Summarizes recent commits into a short human-readable changelog entry
 mode: subagent
 model: google-vertex/gemini-3.5-flash-lite
-temperature: 0.2
+request:
+  body:
+    temperature: 0.2
 color: "#F59E0B"
 ---
 

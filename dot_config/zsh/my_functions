@@ -1,7 +1,7 @@
 # My personal functions
 
 notebook() {
-    local notesArray=("notes.md" "Work/work_notes.md" "Certification/certification_notes.md" "Personal/personal_notes.md")
+    local notesArray=("notes.md" "Work/work_notes.md" "Personal/Certification/certification_notes.md" "Personal/personal_notes.md")
 	local toRun="$HOME/Documents/"
 
 	if [[ $# -eq 0 ]]; then
@@ -40,3 +40,64 @@ silent-update-grub() {
     echo "=> Done! Silent boot maintained."
 }
 alias silent-grub=silent-update-grub
+
+update-llama-cpp() {
+	echo "Updating llama.cpp ..."
+	
+	pushd /home/cybervitor/.local/gits/llama.cpp > /dev/null || return 1
+	
+	if git pull; then
+		rm -rf build/		
+		cmake -B build -DGGML_VULKAN=ON
+		cmake --build build --config Release -j 8
+	else
+		echo "Git pull failed. Aborting build."
+	fi
+	
+	popd > /dev/null
+	echo "Done!"
+}
+alias up-llama=update-llama-cpp
+
+update-orcaslicer() {
+	echo "Updating OrcaSlicer ..."
+	
+	pushd /home/cybervitor/.local/gits/OrcaSlicer > /dev/null || return 1
+	
+	if git pull; then
+		# Fetch any new submodules just in case
+		git submodule update --init --recursive
+		
+		# 1. Update/Verify dependencies first
+		echo "Checking dependencies..."
+		pushd deps > /dev/null
+		# Re-generate in case dependency CMakeLists changed
+		cmake -B build -G Ninja
+		cmake --build build --config Release --target all -- -j8
+		popd > /dev/null
+		
+		# 2. Re-generate main build system (remember the OpenVDB ABI trick!)
+		echo "Configuring main project..."
+		cmake -B build \
+		      -DCMAKE_BUILD_TYPE=Release \
+		      -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+		      -G Ninja \
+		      -DOPENVDB_PRINT="/fake/path"
+		
+		# 3. Build OrcaSlicer
+		echo "Building OrcaSlicer..."
+		cmake --build build --config Release --target all -- -j8
+	else
+		echo "Git pull failed. Aborting build."
+	fi
+	
+	popd > /dev/null
+	echo "Done!"
+}
+alias up-orca=update-orcaslicer
+
+opencode-update() {
+  curl -fsSL https://opencode.ai/v2/install | sed 's|INSTALL_DIR=$HOME/.opencode/bin|INSTALL_DIR=$HOME/.local/bin|' | bash -s -- --no-modify-path
+  opencode service restart
+}
+alias up-oc=opencode-update
