@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+"""
+audit-drift: Scans the workspace using `fd` to detect knowledge drift across
+AGENTS.md files, hub indexes, and progressive context runbooks.
+"""
+
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+HOME = Path.home()
+PROJECTS_DIR = HOME / "Projects"
+HUBS = {
+    "CSTAF": PROJECTS_DIR / "CSTAF",
+    "ISEG": PROJECTS_DIR / "ISEG",
+    "Personal": PROJECTS_DIR / "Personal",
+}
+GLOBAL_CONFIG = HOME / ".config" / "opencode"
+
+IGNORE_DIR_NAMES = {
+    "node_modules", ".git", ".venv", "target", "dist", "build",
+    "__pycache__", ".idea", ".vscode", "innodb_memory.cnf"
+}
+
+def run_fd(args):
+    cmd = ["fd"] + args
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        return [Path(p) for p in res.stdout.strip().splitlines() if p]
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+
+def find_all_agent_files():
+    search_paths = [str(PROJECTS_DIR), str(GLOBAL_CONFIG)]
+    args = [
+        "-HI",
+        "-g", "*AGENT*.md",
+        "-E", ".venv",
+        "-E", "node_modules",
+        "-E", ".git",
+        "-E", "target",
+        "-E", "dist",
+        "-E", "build"
+    ] + search_paths
+    return run_fd(args)
+
+def extract_hub_table_info(md_path):
+    """
+    Extracts registered entries from hub AGENTS.md tables.
+    Returns:
+      registered_names: set of registered directory / project names
+      paths_to_verify: list of relative filesystem paths that should exist
+    """
+    if not md_path.exists():
+        return set(), []
+
+    registered_names = set()
+    paths_to_verify = []
+
+    content = md_path.read_text(encoding="utf-8")
+    for line in content.splitlines():
+        line = line.strip()
+        if not line.startswith("|") or "---" in line:
+            continue
+        cols = [c.strip() for c in line.split("|")[1:-1]]
+        if not cols:
+            continue
+
+        # Check first column for bolded or backticked names
+        col0_tokens = re.findall(r"[`\*]+([^`\*]+)[`\*]+", cols[0])
+        for token in col0_tokens:
+            token = token.strip()
+            # If multiple tokens separated by slash (e.g. `nlpg-6ed` / `nlpg-6ed-group-4`)
+            for subtoken in re.split(r"\s*/\s*", token):
+                if subtoken:
+                    registered_names.add(subtoken.strip("`* "))
+
+        # Extract path candidates from all columns
+        for col in cols:
+            backticked = re.findall(r"`([^`]+)`", col)
+            for token in backticked:
+                token = token.strip()
+                # Exclude pattern notes and descriptions
+                if "*" in token or token in [".agents/", ".agents/*.md"]:
+                    continue
+                # If it looks like a path relative to the hub
+                if "/" in token or token.endswith((".md", ".yml", ".json")):
+                    # Clean trailing slashes for checking
+                    clean_path = token.strip()
+                    paths_to_verify.append(clean_path)
+                    # Also register base parts as names
+                    parts = [p for p in clean_path.split("/") if p and not p.endswith(".md")]
+                    for part in parts:
+                        registered_names.add(part)
+
+    return registered_names, paths_to_verify
+
+def audit():
+    report = {
+        "agent_files": [],
+        "hub_status": {},
+        "missing_agent_docs": [],
+        "broken_references": [],
+        "progressive_context_status": []
+    }
+
+    agent_files = find_all_agent_files()
+    report["agent_files"] = [str(p) for p in agent_files]
+
+    # 1. Audit each Hub
+    for hub_name, hub_path in HUBS.items():
+        hub_agent_md = hub_path / "AGENTS.md"
+        status = {
+            "hub_exists": hub_agent_md.exists(),
+            "registered_entries": [],
+            "unindexed_subdirs": [],
+            "broken_table_paths": []
+        }
+
+        if not hub_agent_md.exists():
+            report["hub_status"][hub_name] = status
+            continue
+
+        registered_names, paths_to_verify = extract_hub_table_info(hub_agent_md)
+        status["registered_entries"] = sorted(list(registered_names))
+
+        # Verify whether referenced paths exist
+        for rel_path in paths_to_verify:
+            target_path = hub_path / rel_path
+            if not target_path.exists():
+                status["broken_table_paths"].append(rel_path)
+                report["broken_references"].append({
+                    "source": str(hub_agent_md),
+                    "referenced": rel_path,
+                    "reason": "Path referenced in table does not exist on disk"
+                })
+
+        # Check for unindexed subdirectories on disk
+        if hub_path.exists():
+            for child in sorted(hub_path.iterdir()):
+                if not child.is_dir() or child.name.startswith(".") or child.name in IGNORE_DIR_NAMES:
+                    continue
+                
+                # Nested group directories
+                if child.name in ["sigtaf", "bdsta", "devops"]:
+                    for subchild in sorted(child.iterdir()):
+                        if not subchild.is_dir() or subchild.name.startswith(".") or subchild.name in IGNORE_DIR_NAMES:
+                            continue
+                        rel_id = f"{child.name}/{subchild.name}"
+                        if subchild.name not in registered_names and rel_id not in registered_names:
+                            status["unindexed_subdirs"].append(rel_id)
+                elif child.name in ["MALE", "AIM"]:
+                    # Academic courses with inner group repos
+                    for subchild in sorted(child.iterdir()):
+                        if subchild.is_dir() and not subchild.name.startswith(".") and subchild.name not in IGNORE_DIR_NAMES:
+                            rel_id = f"{child.name}/{subchild.name}"
+                            if child.name not in registered_names and subchild.name not in registered_names and rel_id not in registered_names:
+                                status["unindexed_subdirs"].append(rel_id)
+                    if child.name not in registered_names:
+                        status["unindexed_subdirs"].append(child.name)
+                else:
+                    if child.name not in registered_names:
+                        status["unindexed_subdirs"].append(child.name)
+
+        report["hub_status"][hub_name] = status
+
+    # 2. Check for missing AGENTS.md in project directories
+    for hub_name, hub_path in HUBS.items():
+        if not hub_path.exists():
+            continue
+        for child in sorted(hub_path.iterdir()):
+            if not child.is_dir() or child.name.startswith(".") or child.name in IGNORE_DIR_NAMES:
+                continue
+            if child.name in ["sigtaf", "bdsta", "devops"]:
+                for subchild in sorted(child.iterdir()):
+                    if not subchild.is_dir() or subchild.name.startswith(".") or subchild.name in IGNORE_DIR_NAMES:
+                        continue
+                    if not (subchild / "AGENTS.md").exists():
+                        report["missing_agent_docs"].append(str(subchild.relative_to(PROJECTS_DIR)))
+            elif child.name == "handbook":
+                # Handbook has handbook.wiki
+                if not (child / "handbook.wiki" / "AGENTS.md").exists() and not (child / "AGENTS.md").exists():
+                    report["missing_agent_docs"].append(str(child.relative_to(PROJECTS_DIR)))
+            elif child.name in ["MALE", "AIM"]:
+                # Check child or any subrepo
+                has_agent = (child / "AGENTS.md").exists() or any((sc / "AGENTS.md").exists() for sc in child.iterdir() if sc.is_dir())
+                if not has_agent:
+                    report["missing_agent_docs"].append(str(child.relative_to(PROJECTS_DIR)))
+            else:
+                if not (child / "AGENTS.md").exists():
+                    report["missing_agent_docs"].append(str(child.relative_to(PROJECTS_DIR)))
+
+    # 3. Check Progressive Context (.agents/*.md) references in AGENTS.md files
+    for agent_file in agent_files:
+        parent_dir = agent_file.parent
+        content = agent_file.read_text(encoding="utf-8", errors="ignore")
+        runbook_refs = re.findall(r"\.agents/[a-zA-Z0-9_\-\./]+\.md", content)
+        if runbook_refs:
+            details = {
+                "file": str(agent_file.relative_to(HOME)),
+                "total_refs": len(runbook_refs),
+                "broken_refs": []
+            }
+            for ref in sorted(list(set(runbook_refs))):
+                target = parent_dir / ref
+                if not target.exists():
+                    details["broken_refs"].append(ref)
+                    report["broken_references"].append({
+                        "source": str(agent_file.relative_to(HOME)),
+                        "referenced": ref,
+                        "reason": "Runbook file does not exist in .agents/"
+                    })
+            report["progressive_context_status"].append(details)
+
+    return report
+
+def format_text_report(report):
+    lines = []
+    lines.append("=" * 64)
+    lines.append("                 WORKSPACE CONTEXT DRIFT AUDIT")
+    lines.append("=" * 64)
+    lines.append(f"Total AGENTS.md files discovered: {len(report['agent_files'])}")
+    lines.append("")
+
+    lines.append("1. HUB INDEX STATUS")
+    for hub_name, status in report["hub_status"].items():
+        if not status["hub_exists"]:
+            lines.append(f"  [CRITICAL] {hub_name}/AGENTS.md is missing!")
+            continue
+
+        broken = len(status["broken_table_paths"])
+        unindexed = len(status["unindexed_subdirs"])
+
+        if broken == 0 and unindexed == 0:
+            lines.append(f"  [OK] {hub_name}/AGENTS.md: Fully synchronized")
+        else:
+            lines.append(f"  [WARN] {hub_name}/AGENTS.md:")
+            if broken > 0:
+                lines.append(f"    - Broken paths in table: {', '.join(status['broken_table_paths'])}")
+            if unindexed > 0:
+                lines.append(f"    - Unindexed subdirectories: {', '.join(status['unindexed_subdirs'])}")
+
+    lines.append("")
+    lines.append("2. PROGRESSIVE CONTEXT RUNBOOKS (.agents/)")
+    if not report["progressive_context_status"]:
+        lines.append("  No progressive context runbooks detected.")
+    else:
+        for item in report["progressive_context_status"]:
+            if not item["broken_refs"]:
+                lines.append(f"  [OK] {item['file']} ({item['total_refs']} runbook links verified)")
+            else:
+                lines.append(f"  [ERROR] {item['file']}: Missing runbooks: {', '.join(item['broken_refs'])}")
+
+    lines.append("")
+    lines.append("3. COVERAGE GAPS (Directories lacking local AGENTS.md)")
+    if not report["missing_agent_docs"]:
+        lines.append("  [OK] All active projects have local AGENTS.md files.")
+    else:
+        for missing in report["missing_agent_docs"]:
+            lines.append(f"  - ~/Projects/{missing}")
+
+    lines.append("")
+    lines.append("=" * 64)
+    return "\n".join(lines)
+
+def main():
+    json_mode = "--json" in sys.argv
+    report = audit()
+    if json_mode:
+        print(json.dumps(report, indent=2))
+    else:
+        print(format_text_report(report))
+
+if __name__ == "__main__":
+    main()
