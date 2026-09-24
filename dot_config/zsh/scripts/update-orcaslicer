@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+up-orca() {
+	echo "Updating OrcaSlicer ..."
+	pushd /home/cybervitor/.local/gits/OrcaSlicer > /dev/null || return 1
+	if git pull; then # Fetch any new submodules just in case
+		git submodule update --init --recursive	
+		echo "Checking dependencies..." # 1. Update/Verify dependencies first
+		pushd deps > /dev/null
+		cmake -B build -G Ninja # Re-generate in case dependency CMakeLists changed
+		cmake --build build --config Release --target all -- -j8
+		popd > /dev/null
+		echo "Configuring main project..." # 2. Re-generate main build system (remember the OpenVDB ABI trick!)
+		cmake -B build \
+		      -DCMAKE_BUILD_TYPE=Release \
+		      -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+		      -G Ninja \
+		      -DOPENVDB_PRINT="/fake/path"
+		echo "Building OrcaSlicer..." # 3. Build OrcaSlicer
+		cmake --build build --config Release --target all -- -j8
+	else
+		echo "Git pull failed. Aborting build."
+	fi
+	popd > /dev/null
+	echo "Done!"
+}

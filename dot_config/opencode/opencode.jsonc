@@ -237,7 +237,26 @@
     { "action": "external_directory", "resource": "/home/cybervitor/Projects/Personal/**", "effect": "allow" },
     { "action": "external_directory", "resource": "/home/cybervitor/Documents/Work/Software Team Documentation/**", "effect": "allow" },
     { "action": "external_directory", "resource": "/home/cybervitor/.config/opencode/**", "effect": "allow" },
-    { "action": "docker_*", "resource": "*", "effect": "ask" }
+    { "action": "docker_*", "resource": "*", "effect": "ask" },
+
+    // Credential & Secret Protection (Evaluated last so they take precedence)
+    { "action": "read", "resource": "$HOME/.ssh/**", "effect": "deny" },
+    { "action": "edit", "resource": "$HOME/.ssh/**", "effect": "deny" },
+    { "action": "read", "resource": "$HOME/.gnupg/**", "effect": "deny" },
+    { "action": "edit", "resource": "$HOME/.gnupg/**", "effect": "deny" },
+    { "action": "read", "resource": "$HOME/.aws/**", "effect": "deny" },
+    { "action": "read", "resource": "$HOME/.netrc", "effect": "deny" },
+    { "action": "read", "resource": "$HOME/.config/zsh/.api_keys_env", "effect": "deny" },
+    { "action": "edit", "resource": "$HOME/.config/zsh/.api_keys_env", "effect": "deny" },
+    { "action": "read", "resource": "$HOME/.config/zsh/.creds/**", "effect": "deny" },
+    { "action": "edit", "resource": "$HOME/.config/zsh/.creds/**", "effect": "deny" },
+    { "action": "read", "resource": "**/.*env*", "effect": "ask" },
+    { "action": "edit", "resource": "**/.*env*", "effect": "ask" },
+    { "action": "read", "resource": "**/credentials*.json", "effect": "deny" },
+    { "action": "read", "resource": "**/*.pem", "effect": "deny" },
+    { "action": "read", "resource": "**/*.key", "effect": "deny" },
+    { "action": "filesystem_*", "resource": "**/.*env*", "effect": "deny" },
+    { "action": "filesystem_*", "resource": "**/.ssh/**", "effect": "deny" }
   ],
 
   // ---------------------------------------------------------------------------

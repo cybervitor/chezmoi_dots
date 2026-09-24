@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+up-llama() {
+	echo "Updating llama.cpp ..."
+	
+	pushd /home/cybervitor/.local/gits/llama.cpp > /dev/null || return 1
+	
+	if git pull; then
+		rm -rf build/		
+		cmake -B build -DGGML_VULKAN=ON
+		cmake --build build --config Release -j 8
+	else
+		echo "Git pull failed. Aborting build."
+	fi
+	
+	popd > /dev/null
+	echo "Done!"
+}

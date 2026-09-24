@@ -26,9 +26,7 @@ if [[ -f "$ZDOTDIR/.p10k.zsh" ]]; then
     source "$ZDOTDIR/.p10k.zsh"			# Load PL10K Configs
 fi
 
-source $ZDOTDIR/my_alias
-source $ZDOTDIR/my_functions			# Load aliases and functions
-source $ZDOTDIR/work_alias
+source $ZDOTDIR/alias
 source $ZDOTDIR/keybinds				# Load Keybinds
 source $ZDOTDIR/lazy_load_nvm 			# Lazy-loads NVM for 0ms added on terminal opening
 

@@ -36,8 +36,7 @@ alias oc-pm='opencode /home/cybervitor/Documents/Work/"Software Team Documentati
 alias oc-es="opencode /home/cybervitor/Projects/CSTAF/sigtaf/estatisticas"
 
 # Quick editing
-alias edit-alias='chezmoi edit $ZDOTDIR/my_alias && chezmoi apply'
-alias edit-work-alias='chezmoi edit $ZDOTDIR/work_alias && chezmoi apply'
+alias edit-alias='chezmoi edit $ZDOTDIR/alias && chezmoi apply'
 alias edit-zshrc='chezmoi edit $ZDOTDIR/.zshrc && chezmoi apply'
 alias edit-zenv='chezmoi edit $ZDOTDIR/.zshenv && chezmoi apply'
 alias edit-zprofile='chezmoi edit $ZDOTDIR/.zprofile && chezmoi apply'
@@ -48,3 +47,17 @@ alias edit-opencode="chezmoi edit /home/cybervitor/.config/opencode/opencode.jso
 # Cleaning home directory
 alias adb='HOME="$XDG_DATA_HOME"/android adb'
 alias wget="wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
+
+# Source Functions
+export MARIADB_USER="root" 	# THIS IS FOR DEV MACHINE ONLY, DONT WORRY
+export MARIADB_PASSWORD="sigtaf"
+
+source $ZDOTDIR/scripts/notebook
+source $ZDOTDIR/scripts/silent-update-grub
+source $ZDOTDIR/scripts/start-sigtaf
+source $ZDOTDIR/scripts/update-llama-cpp
+source $ZDOTDIR/scripts/update-opencode
+source $ZDOTDIR/scripts/update-orcaslicer
+
+# Function Alias
+alias sig-logs="docker logs -f sigtaf-backend"

@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+up-oc() {
+  curl -fsSL https://opencode.ai/v2/install | sed 's|INSTALL_DIR=$HOME/.opencode/bin|INSTALL_DIR=$HOME/.local/bin|' | bash -s -- --no-modify-path
+  opencode service restart
+}
