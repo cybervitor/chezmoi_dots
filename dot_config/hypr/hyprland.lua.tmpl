@@ -60,19 +60,20 @@ hl.monitor({
 })
 {{- end }}
 
--- Tablet Monitor
-hl.workspace_rule({
-    workspace = "9",
-    default = true,
-    monitor = "Virtual-1"
-})
-
 -- Fallback for unknown monitors
 hl.monitor({ 
     output      =   "",
     mode        =   "preferred",
     position    =   "auto",
     scale       =   1
+})
+
+{{- if .is_laptop }}
+-- Tablet Monitor
+hl.workspace_rule({
+    workspace = "9",
+    default = true,
+    monitor = "Virtual-1"
 })
 
 -- binds monitors if they exist
@@ -99,6 +100,13 @@ else
 	    monitor = "desc:HP Inc. HP E27 G5 CNC4352B36"
 	})
 end
+{{- else }}
+hl.workspace_rule({
+    workspace = "1",
+    monitor   = "desc:LG Electronics LG ULTRAGEAR 509NTDVM2162",
+    default   = true,
+})
+{{- end }}
 
 --#endregion
 
@@ -116,6 +124,11 @@ local wallpaperManager  = "hyprpaper"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 hl.on("hyprland.start", function ()
+    local function exec_online(cmd, opts)
+        local full_cmd = string.format("sh -c 'nm-online -s -q -t 10 && exec %s'", cmd)
+        hl.exec_cmd(full_cmd, opts)
+    end
+    
 	-- Daemons	
     hl.exec_cmd(wallpaperManager)
     hl.exec_cmd(bar)
@@ -127,14 +140,22 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     {{- if .is_laptop }}
     hl.exec_cmd("solaar -w hide")
---need to fix syntax    hl.exec_cmd("kanshi")
+    -- hl.exec_cmd("kanshi") -- need to fix syntax
+    {{- else }}
+    hl.exec_cmd("openlogi")
     {{- end }}
-
-	-- startup programs  bound to workspaces
-    hl.exec_cmd("/usr/bin/betterbird", {workspace = "1 silent"})
-    hl.exec_cmd("zen-browser", {workspace = "2 silent"})
+	-- startup programs bound to workspaces
+    {{- if .is_laptop }}
+    hl.exec_cmd("zen-browser", {workspace = "1 silent"})
+    hl.exec_cmd("/usr/bin/betterbird", {workspace = "2 silent"})
     hl.exec_cmd("kitty", {workspace = "8 silent"})
     hl.exec_cmd("ferdium", {workspace = "special:magic silent"})
+    {{- else }}
+    exec_online("zen-browser", { workspace = "1" })
+    exec_online("betterbird",  { workspace = "1" }) -- opens "trayed" on desktop only
+    hl.exec_cmd("kitty", {workspace = "2 silent"})
+    exec_online("ferdium",     { workspace = "special:magic silent" })
+    {{- end }}
 end)
 --#endregion
 
@@ -488,4 +509,5 @@ hl.window_rule({
     float = true,
     pin = true,
 })
+
 --#endregion
