@@ -12,7 +12,7 @@ This repository (`~/.config/opencode`) houses the global configuration and custo
 - **Permissions Evaluation**: Inside `opencode.jsonc` under `permissions`, rules are an ordered array of `{ action, resource, effect }` objects evaluated such that **the LAST matching rule wins**. Always place broad wildcards (e.g., `{ "action": "shell", "resource": "*", "effect": "allow" }`) first, followed by specific overrides or restrictions.
 - **Environment Variables**: Never hardcode API keys (like Context7 or Firecrawl) in `opencode.jsonc`. Use the `{env:VAR_NAME}` placeholder syntax (e.g., `{env:CONTEXT7_API_KEY}`).
 - **Credential & Secret Boundary**: NEVER inspect, read, grep, or edit files containing private credentials or API keys (e.g., `~/.config/zsh/.api_keys_env`, `~/.config/zsh/.creds/`, `~/.ssh/`, `~/.gnupg/`, `~/.aws/`). Always treat credential stores as strictly out-of-bounds.
-- **MCP Server Invocations**: The configuration heavily relies on local MCP servers under `mcp.servers`. When adding an `npx`-based MCP server, prefer using `["npx", "-y", "package-name"]` in the `command` array. When adding Python `uv`-based servers, use `["uvx", "--with", "mcp<1.6", "package-name"]` to avoid breaking changes in newer MCP SDKs.
+- **MCP Server Invocations**: The configuration heavily relies on local MCP servers under `mcp.servers`. When adding an `npx`-based MCP server, prefer using `["npx", "-y", "package-name"]` in the `command` array. When adding Python `uv`-based servers, use `["uvx", "--with", "mcp<2,>=1.7", "package-name"]` to avoid breaking changes in newer MCP SDKs.
 
 ## Modifying Agents
 - Global context instructions for agents are under the `instructions` array.

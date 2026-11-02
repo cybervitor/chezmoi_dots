@@ -136,7 +136,7 @@
       // A. THE API BRIDGE: OpenAPI / REST Server
       "openapi": {
         "type": "local",
-        "command": ["uvx", "--with", "mcp<1.6", "mcp-openapi-proxy"],
+        "command": ["uvx", "--with", "mcp<2,>=1.7", "mcp-openapi-proxy"],
         "environment": {
           "OPENAPI_SPEC_URL": "http://localhost:8765/swagger.json"
         }
